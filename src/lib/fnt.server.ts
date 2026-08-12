@@ -21,7 +21,37 @@ type CacheState = {
 let cache: CacheState | null = null;
 let inflight: Promise<CacheState> | null = null;
 
+import fs from "fs";
+import path from "path";
+
+function ensureEnvLoaded() {
+  const envPaths = [
+    "/home/user/cable-scanner-pwa/.env",
+    "/home/ubuntu/remix-of-cable-scan/.env",
+    path.join(process.cwd(), ".env"),
+  ];
+  for (const envPath of envPaths) {
+    try {
+      if (fs.existsSync(envPath)) {
+        const content = fs.readFileSync(envPath, "utf-8");
+        for (const line of content.split("\n")) {
+          const trimmed = line.trim();
+          if (trimmed && !trimmed.startsWith("#")) {
+            const idx = trimmed.indexOf("=");
+            if (idx > 0) {
+              const key = trimmed.slice(0, idx).trim();
+              const val = trimmed.slice(idx + 1).trim();
+              if (key) process.env[key] = val;
+            }
+          }
+        }
+      }
+    } catch {}
+  }
+}
+
 function config() {
+  ensureEnvLoaded();
   return {
     baseUrl: (process.env["FNT_BASE_URL"] ?? "").replace(/\/+$/, ""),
     username: process.env["FNT_USERNAME"] ?? "",
