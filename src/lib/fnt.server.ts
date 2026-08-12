@@ -1,4 +1,7 @@
 import { encryptPassword } from "./blowfish.server";
+
+// FNT servers commonly use self-signed certs — disable TLS verification.
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 import { DEMO_CABLES, type CableRecord } from "./fnt-demo-data";
 
 const ENTITY_TYPES = ["cableMaster", "powerCable", "dataCable"] as const;

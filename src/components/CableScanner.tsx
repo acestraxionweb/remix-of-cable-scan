@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { CableInfoCard } from "@/components/CableInfoCard";
-import { cacheGet, cacheSet } from "@/lib/cable-cache";
+import { cacheClear, cacheGet, cacheSet } from "@/lib/cable-cache";
 import { getCable, type CableLookupResult, type CableValue } from "@/lib/cable.functions";
 
 type CardState =
@@ -25,6 +25,23 @@ export function CableScanner() {
 
   const scannerRef = useRef<unknown>(null);
   const lastScanRef = useRef<{ code: string; at: number }>({ code: "", at: 0 });
+
+  // Clear stale IndexedDB cache when server source changes (demo → fnt).
+  useEffect(() => {
+    const SOURCE_KEY = "cable-cache-source";
+    fetch("/api/public/health")
+      .then((r) => r.json())
+      .then(async (json: { cache?: { source?: string } }) => {
+        const serverSource = json.cache?.source ?? "unknown";
+        const prevSource = localStorage.getItem(SOURCE_KEY);
+        if (prevSource && prevSource !== serverSource) {
+          await cacheClear();
+          console.info(`[CableScanner] Cache source changed (${prevSource} → ${serverSource}), cleared IndexedDB`);
+        }
+        localStorage.setItem(SOURCE_KEY, serverSource);
+      })
+      .catch(() => {});
+  }, []);
 
   const lookup = useCallback(async (rawCode: string) => {
     const elid = rawCode.trim();
