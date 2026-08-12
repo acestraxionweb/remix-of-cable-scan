@@ -88,6 +88,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Cable Scanner — Scan cable barcodes for FNT Command data" },
       { name: "twitter:description", content: "Field scanner PWA: point your phone at a cable barcode or QR label and instantly see its FNT Command cable data, with continuous scanning." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c5c3399a-e4fd-460b-a273-d4f1e4ef1717/id-preview-f791d254--df7b9d8d-2932-414a-be1e-caf8a7380df9.lovable.app-1786549419294.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c5c3399a-e4fd-460b-a273-d4f1e4ef1717/id-preview-f791d254--df7b9d8d-2932-414a-be1e-caf8a7380df9.lovable.app-1786549419294.png" },
     ],
     links: [
       {
