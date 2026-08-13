@@ -1,16 +1,24 @@
 import { encryptPassword } from "./blowfish.server";
 
 // FNT servers commonly use self-signed certs — disable TLS verification.
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-import { DEMO_CABLES, type CableRecord } from "./fnt-demo-data";
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+import { DEMO_ENTITIES, type FntEntity } from "./fnt-demo-data";
 
-const ENTITY_TYPES = ["cableMaster", "powerCable", "dataCable"] as const;
+const ENTITY_TYPES = [
+  "cableMaster",
+  "powerCable",
+  "dataCable",
+  "building",
+  "room",
+  "floor",
+  "campus",
+] as const;
 type EntityType = (typeof ENTITY_TYPES)[number];
 
 const REFRESH_INTERVAL_MS = 30 * 60 * 1000;
 
 type CacheState = {
-  index: Map<string, CableRecord>;
+  index: Map<string, FntEntity>;
   counts: Record<string, number>;
   loadedAt: number;
   source: "fnt" | "demo";
@@ -112,8 +120,8 @@ async function queryEntity(
   return json.returnData ?? [];
 }
 
-function indexRecords(records: CableRecord[]) {
-  const index = new Map<string, CableRecord>();
+function indexRecords(records: FntEntity[]) {
+  const index = new Map<string, FntEntity>();
   for (const record of records) {
     for (const key of ["elid", "visibleId", "id"] as const) {
       const value = record[key];
@@ -127,8 +135,8 @@ function indexRecords(records: CableRecord[]) {
 
 function demoState(error: string | null): CacheState {
   return {
-    index: indexRecords(DEMO_CABLES),
-    counts: DEMO_CABLES.reduce<Record<string, number>>((acc, r) => {
+    index: indexRecords(DEMO_ENTITIES),
+    counts: DEMO_ENTITIES.reduce<Record<string, number>>((acc, r) => {
       acc[r._entityType] = (acc[r._entityType] ?? 0) + 1;
       return acc;
     }, {}),
@@ -145,7 +153,7 @@ async function loadFromFnt(): Promise<CacheState> {
 
   try {
     const sessionId = preset || (await soapLogin(baseUrl, username, password));
-    const all: CableRecord[] = [];
+    const all: FntEntity[] = [];
     const counts: Record<string, number> = {};
     for (const entityType of ENTITY_TYPES) {
       const records = await queryEntity(baseUrl, sessionId, entityType);
@@ -192,7 +200,8 @@ export async function lookupCable(rawId: string) {
   if (!hit) return null;
 
   // Enrich installed cables with their catalog (cableMaster) type data.
-  const typeElid = typeof hit["typeElid"] === "string" ? hit["typeElid"] : null;
+  const isCable = hit._entityType === "powerCable" || hit._entityType === "dataCable";
+  const typeElid = isCable && typeof hit["typeElid"] === "string" ? hit["typeElid"] : null;
   const master = typeElid ? state.index.get(typeElid.toUpperCase()) : undefined;
   return master && master !== hit ? { ...master, ...hit, _master: master } : hit;
 }

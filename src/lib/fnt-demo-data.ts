@@ -1,13 +1,16 @@
-export type CableRecord = Record<string, unknown> & {
+export type FntEntity = Record<string, unknown> & {
   elid: string;
-  _entityType: "cableMaster" | "powerCable" | "dataCable";
+  _entityType: string;
 };
+
+/** @deprecated use FntEntity */
+export type CableRecord = FntEntity;
 
 /**
  * Demo dataset used when no FNT server is configured (FNT_BASE_URL unset).
  * Mirrors the real FNT REST response shape exactly.
  */
-export const DEMO_CABLES: CableRecord[] = [
+export const DEMO_ENTITIES: FntEntity[] = [
   {
     _entityType: "cableMaster",
     elid: "HDGBQY02DZI4QV",
@@ -70,4 +73,44 @@ export const DEMO_CABLES: CableRecord[] = [
     tcoServiceType: "DARK FIBER",
     tcoStatus: "IN OPERATION",
   },
+  {
+    _entityType: "building",
+    elid: "5ST2GVLB2ORUDX",
+    name: "Maximilianstrasse",
+    description: "Main office building Munich",
+    campus: "Munich Campus",
+    remark: "3 floors, 2 server rooms",
+  },
+  {
+    _entityType: "building",
+    elid: "TDU2YPUIQ4MYDL",
+    name: "Fishermans Wharf",
+    description: "Branch office San Francisco",
+    campus: "SF Campus",
+    location: "San Francisco, CA",
+  },
+  {
+    _entityType: "room",
+    elid: "MKJKQ2MWZBCQGC",
+    name: "2.11 Office",
+    description: "Open-plan office space",
+    building: "Maximilianstrasse",
+    floor: "2nd",
+    area: 120,
+  },
+  {
+    _entityType: "floor",
+    elid: "FLR001",
+    name: "1st Floor",
+    description: "Ground floor",
+  },
+  {
+    _entityType: "campus",
+    elid: "CMP001",
+    name: "Munich Campus",
+    description: "Primary campus",
+  },
 ];
+
+/** @deprecated use DEMO_ENTITIES */
+export const DEMO_CABLES = DEMO_ENTITIES;

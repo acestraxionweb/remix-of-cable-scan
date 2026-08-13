@@ -13,7 +13,7 @@ export const Route = createFileRoute("/api/public/cable/$elid")({
             {
               success: false,
               error: "CABLE_NOT_FOUND",
-              message: `No cable found with ELID: ${elid}`,
+              message: `No entity found with ELID: ${elid}`,
             },
             { status: 404 },
           );
