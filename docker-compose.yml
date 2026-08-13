@@ -1,0 +1,19 @@
+name: cable-scanner
+
+services:
+  cable-scanner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cable-scanner-app
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      - PORT=5173
+      - FNT_BASE_URL=${FNT_BASE_URL:-}
+      - FNT_USERNAME=${FNT_USERNAME:-command}
+      - FNT_PASSWORD=${FNT_PASSWORD:-command}
+      - FNT_SESSION_ID=${FNT_SESSION_ID:-}
+    env_file:
+      - .env
