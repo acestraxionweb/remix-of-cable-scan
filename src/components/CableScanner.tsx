@@ -69,7 +69,7 @@ export function CableScanner() {
       setCard({
         status: "error",
         elid,
-        message: "Network error — could not reach the cable service.",
+        message: "Network error — could not reach the entity service.",
       });
     }
   }, []);
