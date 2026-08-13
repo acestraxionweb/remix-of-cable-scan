@@ -1,7 +1,7 @@
 const DB_NAME = "cable-scanner";
 const STORE = "cables";
 const VERSION_KEY = "cable-cache-version";
-const CURRENT_VERSION = 2; // Bump to force cache invalidation
+const CURRENT_VERSION = 3; // Bump to force cache invalidation
 const TTL_MS = 60 * 60 * 1000; // 1 hour
 
 type Entry<T> = { key: string; value: T; storedAt: number };

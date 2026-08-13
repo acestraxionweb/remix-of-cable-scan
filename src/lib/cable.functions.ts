@@ -16,7 +16,7 @@ export const getCable = createServerFn({ method: "GET" })
       return {
         success: false,
         error: "CABLE_NOT_FOUND",
-        message: `No cable found with ELID: ${data.elid}`,
+        message: `No entity found with ELID: ${data.elid}`,
       };
     }
     const clean: Record<string, CableValue> = {};
