@@ -196,7 +196,7 @@ export function CableScanner() {
           className="relative h-64 w-64 rounded-2xl border-2 border-scan-accent/70 shadow-[0_0_0_9999px_oklch(0.15_0.04_285_/_55%)]"
           style={{ ["--scan-height" as string]: "248px" }}
         >
-          <div className="absolute inset-x-2 top-1 h-0.5 rounded-full bg-scan-accent animate-scanline shadow-[0_0_12px_var(--scan-accent)]" />
+          <div className="absolute inset-x-2 top-1 h-0.5 rounded-full bg-scan-accent shadow-[0_0_12px_var(--scan-accent)]" />
         </div>
       </div>
 
