@@ -27,7 +27,7 @@ function Skeleton() {
       {[90, 60, 75, 50].map((w, i) => (
         <div
           key={i}
-          className="h-3 animate-pulse rounded-full bg-muted"
+          className="h-3 rounded-full bg-muted"
           style={{ width: `${w}%` }}
         />
       ))}
@@ -179,7 +179,7 @@ export function CableInfoCard({ state, onClose }: Props) {
     !!data && typeof data["_entityType"] === "string" && CABLE_TYPES.includes(data["_entityType"]);
 
   return (
-    <div className="pointer-events-auto absolute inset-x-0 bottom-0 z-20 animate-in slide-in-from-bottom duration-300">
+    <div className="pointer-events-auto absolute inset-x-0 bottom-0 z-20">
       <div className="glass-card mx-2 mb-2 rounded-t-3xl border border-border shadow-2xl">
         <button
           onClick={onClose}

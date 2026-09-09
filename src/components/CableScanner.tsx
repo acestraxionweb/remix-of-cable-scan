@@ -111,7 +111,7 @@ export function CableScanner() {
         scannerRef.current = instance;
         await instance!.start(
           { facingMode: facing },
-          { fps: 10, qrbox: { width: 260, height: 260 }, aspectRatio: 1.777 },
+          { fps: 15, qrbox: { width: 260, height: 260 }, aspectRatio: 1.777 },
           (text: string) => onDecoded(text),
           () => {},
         );
@@ -194,14 +194,13 @@ export function CableScanner() {
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <div
           className="relative h-64 w-64 rounded-2xl border-2 border-scan-accent/70 shadow-[0_0_0_9999px_oklch(0.15_0.04_285_/_55%)]"
-          style={{ ["--scan-height" as string]: "248px" }}
         >
-          <div className="absolute inset-x-2 top-1 h-0.5 rounded-full bg-scan-accent animate-scanline shadow-[0_0_12px_var(--scan-accent)]" />
+          <div className="absolute inset-x-2 top-1 h-0.5 rounded-full bg-scan-accent shadow-[0_0_12px_var(--scan-accent)]" />
         </div>
       </div>
 
       {/* Top bar */}
-      <header className="pointer-events-auto absolute inset-x-0 top-0 z-20 flex items-center gap-3 bg-scan-header/70 px-4 py-3 backdrop-blur-md">
+      <header className="pointer-events-auto absolute inset-x-0 top-0 z-20 flex items-center gap-3 bg-scan-header/90 px-4 py-3">
         <span
           aria-label={online ? "Connected" : "Offline"}
           className={`h-2.5 w-2.5 shrink-0 rounded-full ${online ? "bg-scan-accent" : "bg-scan-danger"}`}
